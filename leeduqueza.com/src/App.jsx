@@ -54,27 +54,47 @@ const skills = [
 const projects = [
   {
     number: "01",
-    title: "Enterprise Rich-Text Editor Migration",
+    title: "OmTrak",
+    category: "Professional Work",
+    role: "Full-Stack Software Engineer",
     description:
-      "Modernized an enterprise editor by migrating from CKEditor to KendoReact Editor while preserving document links, image attachments, formatting, and project-specific settings.",
-    technologies: ["React", "KendoReact", "GraphQL", "Java"],
-    status: "Professional project",
+      "Contributed to the development and modernization of an enterprise construction and asset-management platform used for project communication, documentation, workflows, and facility operations.",
+    contribution:
+      "Developed and maintained frontend and backend functionality, implemented application workflows, integrated services, resolved defects, and supported ongoing platform upgrades.",
+    technologies: [
+      "Java",
+      "Spring Boot",
+      "React.js",
+      "KendoReact UI",
+      "PDFTron",
+      "Keycloak",
+    ],
+    href: "https://www.omtrak.com/",
   },
   {
     number: "02",
-    title: "Document Attachment Management",
+    title: "MedSurf",
+    category: "Freelance Work",
+    role: "Full-Stack Web Developer",
     description:
-      "Developed workflows for viewing document attachments, resolving file versions, handling folder paths, and opening documents inside an enterprise viewer.",
-    technologies: ["React", "GraphQL", "PDFTron", "Spring Boot"],
-    status: "Professional project",
+      "Participated in the development of a healthcare employment marketplace that connects healthcare professionals with employers, recruiters, and contract opportunities.",
+    contribution:
+      "Contributed to frontend and backend development, responsive user interfaces, application functionality, database integration, and the overall user experience.",
+    technologies: ["Next.js", "Node.js", "Tailwind CSS", "PostgreSQL"],
+    href: "https://www.medsurf.co/",
   },
   {
     number: "03",
-    title: "Project Dashboard",
+    title: "Marino World Online",
+    category: "Freelance Work",
+    role: "Full-Stack Web Developer",
     description:
-      "Built and maintained dashboard functionality connecting React interfaces to Java and GraphQL services, with filtering, application state, and reusable UI components.",
-    technologies: ["React", "Redux", "Apollo", "Java"],
-    status: "Professional project",
+      "Participated in the development of a digital maritime publication featuring industry news, feature stories, interviews, videos, and online magazine content.",
+    contribution:
+      "Contributed to frontend development, responsive layout, Strapi content integration, deployment, and the presentation of publication content.",
+    technologies: ["Next.js", "Tailwind CSS", "Strapi"],
+    platforms: ["Vercel", "Heroku"],
+    href: "https://www.marinoworldonline.com/",
   },
 ];
 
@@ -139,7 +159,7 @@ function App() {
               About
             </a>
             <a className="transition hover:text-white" href="#projects">
-              Projects
+              Work
             </a>
             <a className="transition hover:text-white" href="#experience">
               Experience
@@ -303,9 +323,9 @@ function App() {
         >
           <div className="mx-auto max-w-6xl px-6">
             <SectionHeading
-              eyebrow="About me"
-              title="Engineering beyond tutorial applications"
-              description="I work on real production systems, where understanding existing architecture, preserving behavior, and solving complex issues are just as important as writing new code."
+              eyebrow="Selected work"
+              title="Professional and freelance projects"
+              description="A selection of websites and software products I have contributed to through professional employment and freelance development."
             />
 
             <div className="grid gap-5 md:grid-cols-3">
@@ -349,8 +369,8 @@ function App() {
             <div className="space-y-5">
               {projects.map((project) => (
                 <article
-                  key={project.number}
-                  className="group grid gap-6 rounded-2xl border border-white/10 bg-white/[0.025] p-6 transition hover:border-cyan-400/30 md:grid-cols-[80px_1fr_auto] md:items-center md:p-8"
+                  key={project.title}
+                  className="group grid gap-6 rounded-2xl border border-white/10 bg-white/[0.025] p-6 transition hover:-translate-y-1 hover:border-cyan-400/30 md:grid-cols-[80px_1fr_auto] md:items-center md:p-8"
                 >
                   <p className="font-mono text-xl text-cyan-400">
                     {project.number}
@@ -362,37 +382,76 @@ function App() {
                         {project.title}
                       </h3>
 
-                      <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-500">
-                        {project.status}
+                      <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-400">
+                        {project.category}
                       </span>
                     </div>
+
+                    <p className="mb-3 text-sm font-medium text-cyan-300">
+                      {project.role}
+                    </p>
 
                     <p className="max-w-3xl leading-7 text-slate-400">
                       {project.description}
                     </p>
 
+                    <div className="mt-5 rounded-xl border border-white/5 bg-black/10 p-4">
+                      <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        My contribution
+                      </p>
+
+                      <p className="leading-6 text-slate-400">
+                        {project.contribution}
+                      </p>
+                    </div>
+
                     <div className="mt-5 flex flex-wrap gap-2">
                       {project.technologies.map((technology) => (
                         <span
                           key={technology}
-                          className="font-mono text-xs text-cyan-300"
+                          className="rounded-md border border-cyan-400/10 bg-cyan-400/5 px-3 py-1.5 font-mono text-xs text-cyan-300"
                         >
                           {technology}
                         </span>
                       ))}
                     </div>
+                    {project.platforms && (
+                      <div className="mt-4 flex flex-wrap items-center gap-2">
+                        <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                          Deployment:
+                        </span>
+
+                        {project.platforms.map((platform) => (
+                          <span
+                            key={platform}
+                            className="rounded-md border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-xs text-slate-400"
+                          >
+                            {platform}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
-                  <button
-                    type="button"
-                    aria-label={`View ${project.title}`}
-                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-slate-400 transition group-hover:border-cyan-400/30 group-hover:text-cyan-300"
+                  <a
+                    href={project.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`Visit the ${project.title} website`}
+                    className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2.5 text-sm font-medium text-slate-300 transition hover:border-cyan-400/30 hover:bg-cyan-400/5 hover:text-cyan-300 md:self-center"
                   >
-                    <ArrowUpRight size={20} />
-                  </button>
+                    Visit website
+                    <ArrowUpRight size={18} />
+                  </a>
                 </article>
               ))}
             </div>
+
+            <p className="mt-6 max-w-3xl text-sm leading-6 text-slate-500">
+              The products, websites, trademarks, and branding shown above
+              belong to their respective owners. My portfolio describes only the
+              areas where I participated or contributed.
+            </p>
           </div>
         </section>
 
