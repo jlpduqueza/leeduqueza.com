@@ -12,6 +12,8 @@ import {
 
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
+import ContactForm from "./components/ContactForm";
+
 const skills = [
   {
     category: "Frontend",
@@ -236,7 +238,7 @@ function App() {
                 </a>
 
                 <a
-                  href="#contact"
+                  href="https://www.linkedin.com/in/jann-leerick-duqueza-204b8423b/"
                   aria-label="LinkedIn profile"
                   className="transition hover:text-white"
                 >
@@ -499,7 +501,7 @@ function App() {
           </div>
         </section>
 
-        <section id="contact" className="py-28">
+        {/* <section id="contact" className="py-28">
           <div className="mx-auto max-w-4xl px-6 text-center">
             <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-400/10 text-cyan-300">
               <FileText size={26} />
@@ -517,14 +519,18 @@ function App() {
               I&apos;m open to full-stack, Java, React, and backend-focused
               software-engineering opportunities.
             </p>
+          </div>
+        </section> */}
 
-            <a
-              href="mailto:leeduqueza@gmail.com"
-              className="mt-9 inline-flex items-center gap-2 rounded-lg bg-cyan-400 px-6 py-3 font-semibold text-slate-950 transition hover:bg-cyan-300"
-            >
-              <Mail size={18} />
-              Send me an email
-            </a>
+        <section id="contact" className="py-28">
+          <div className="mx-auto max-w-6xl px-6">
+            <SectionHeading
+              eyebrow="Contact"
+              title="Start a conversation"
+              description="Send me a message regarding software-development opportunities, freelance work, or project collaboration."
+            />
+
+            <ContactForm />
           </div>
         </section>
       </main>
