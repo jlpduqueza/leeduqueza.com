@@ -6,7 +6,7 @@ const initialForm = {
   email: "",
   subject: "",
   message: "",
-  company: "",
+  hpTrap: "",
 };
 
 export default function ContactForm() {
@@ -125,15 +125,15 @@ export default function ContactForm() {
           aria-hidden="true"
           className="absolute -left-[9999px] h-0 overflow-hidden"
         >
-          <label htmlFor="company">Company website</label>
+          <label htmlFor="hp-trap">Leave this field empty</label>
 
           <input
-            id="company"
-            name="company"
+            id="hp-trap"
+            name="hpTrap"
             type="text"
             tabIndex="-1"
             autoComplete="off"
-            value={form.company}
+            value={form.hpTrap}
             onChange={handleChange}
           />
         </div>

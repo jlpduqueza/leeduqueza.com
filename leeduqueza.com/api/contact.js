@@ -35,8 +35,9 @@ export default {
       const subject = body.subject?.trim();
       const message = body.message?.trim();
 
-      // Honeypot spam field
-      if (body.company) {
+      // Honeypot spam field. Named so browsers won't autofill it.
+      if (body.hpTrap) {
+        console.warn("Contact form honeypot triggered; message dropped.");
         return jsonResponse({
           success: true,
           message: "Your message has been sent.",
