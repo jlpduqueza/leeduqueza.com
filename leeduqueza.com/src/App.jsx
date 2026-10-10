@@ -6,13 +6,16 @@ import {
   Code2,
   Database,
   Download,
+  GraduationCap,
   Mail,
   Menu,
   Server,
+  Sparkles,
   X,
 } from "lucide-react";
 
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { FaUpwork } from "react-icons/fa6";
 
 import ContactForm from "./components/ContactForm";
 
@@ -25,40 +28,31 @@ const navLinks = [
 
 const skills = [
   {
+    category: "Backend",
+    icon: Server,
+    technologies: ["Java", "Spring Boot", "GraphQL", "REST APIs", "Maven"],
+  },
+  {
     category: "Frontend",
     icon: Code2,
     technologies: [
-      "React",
-      "JavaScript",
-      "TypeScript",
-      "KendoReact",
-      "Redux",
-      "Apollo Client",
+      "React.js",
+      "Next.js",
       "Tailwind CSS",
+      "JavaScript",
+      "Redux",
+      "KendoReact",
     ],
   },
   {
-    category: "Backend",
-    icon: Server,
-    technologies: [
-      "Java",
-      "Spring Boot",
-      "GraphQL",
-      "REST APIs",
-      "Maven",
-      "Keycloak",
-    ],
+    category: "AI-Assisted Development",
+    icon: Sparkles,
+    technologies: ["Claude", "Claude Code"],
   },
   {
-    category: "Data & Documents",
+    category: "Data & Deployment",
     icon: Database,
-    technologies: [
-      "MySQL",
-      "PDFTron",
-      "Document Management",
-      "PDF Export",
-      "File Workflows",
-    ],
+    technologies: ["MySQL", "Strapi", "Vercel", "Heroku", "Git"],
   },
 ];
 
@@ -85,7 +79,7 @@ const projects = [
   {
     number: "02",
     title: "MedSurf",
-    category: "Freelance Work",
+    category: "Freelance · Upwork",
     role: "Full-Stack Web Developer",
     description:
       "Participated in the development of a healthcare employment marketplace that connects healthcare professionals with employers, recruiters, and contract opportunities.",
@@ -109,20 +103,32 @@ const projects = [
   },
 ];
 
+const UPWORK_URL =
+  "https://www.upwork.com/freelancers/~013d0481f75fae0190?mp_source=share";
+
 const experience = [
   {
-    period: "Present",
-    role: "Full-Stack Software Engineer",
-    company: "Enterprise Software Development",
+    period: "2019 – Present",
+    role: "Mid-Level Software Engineer",
+    company: "Qbryx Technology Solutions Corporation",
+    icon: BriefcaseBusiness,
     description:
-      "Developing and maintaining production applications using Java, Spring Boot, GraphQL, React, KendoReact, MySQL, and document-management technologies.",
+      "Develop and maintain features for OmTrak across a Java, Spring Boot, and GraphQL backend and a React.js, KendoReact, and Tailwind CSS front end. Migrate and upgrade existing modules, integrate services through GraphQL and REST APIs backed by MySQL, and resolve defects alongside developers and QA.",
   },
   {
-    period: "7+ years",
-    role: "Software & Web Development",
-    company: "Professional Experience",
+    period: "2020 – 2022",
+    role: "Freelance Full-Stack Web Developer",
+    company: "Upwork",
+    href: UPWORK_URL,
+    icon: BriefcaseBusiness,
     description:
-      "Experience building application features, modernizing legacy components, investigating defects, integrating APIs, and collaborating with developers and QA.",
+      "Delivered web projects for international and local clients, including applicant and employer dashboards for MedSurf and the front end of Marino World Online, using Next.js, Tailwind CSS, and Strapi.",
+  },
+  {
+    period: "2015 – 2019",
+    role: "Bachelor of Science in Computer Science",
+    company: "New Era University",
+    icon: GraduationCap,
   },
 ];
 
@@ -289,6 +295,16 @@ function App() {
                 </a>
 
                 <a
+                  href={UPWORK_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Upwork profile"
+                  className="transition hover:text-white"
+                >
+                  <FaUpwork size={22} />
+                </a>
+
+                <a
                   href="#contact"
                   aria-label="Email"
                   className="transition hover:text-white"
@@ -373,7 +389,7 @@ function App() {
               description="The languages, frameworks, and tools I use to build and maintain full-stack applications."
             />
 
-            <div className="grid gap-5 md:grid-cols-3">
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
               {skills.map(({ category, icon: Icon, technologies }) => (
                 <article
                   key={category}
@@ -507,12 +523,12 @@ function App() {
           <div className="mx-auto max-w-6xl px-6">
             <SectionHeading
               eyebrow="Experience"
-              title="Professional background"
-              description="My experience focuses on full-stack application development, modernization, debugging, and enterprise software maintenance."
+              title="Experience and education"
+              description="Seven years of full-stack development across enterprise software and freelance client work."
             />
 
             <div className="max-w-4xl">
-              {experience.map((item) => (
+              {experience.map(({ icon: Icon, ...item }) => (
                 <article
                   key={item.role}
                   className="relative grid gap-4 border-l border-white/10 pb-12 pl-7 last:pb-0 md:grid-cols-[140px_1fr]"
@@ -530,13 +546,27 @@ function App() {
                     </h3>
 
                     <p className="mt-1 flex items-center gap-2 text-slate-500">
-                      <BriefcaseBusiness size={15} />
-                      {item.company}
+                      <Icon size={15} />
+                      {item.href ? (
+                        <a
+                          href={item.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1 transition hover:text-cyan-300"
+                        >
+                          {item.company}
+                          <ArrowUpRight size={14} />
+                        </a>
+                      ) : (
+                        item.company
+                      )}
                     </p>
 
-                    <p className="mt-4 leading-7 text-slate-400">
-                      {item.description}
-                    </p>
+                    {item.description && (
+                      <p className="mt-4 leading-7 text-slate-400">
+                        {item.description}
+                      </p>
+                    )}
                   </div>
                 </article>
               ))}
