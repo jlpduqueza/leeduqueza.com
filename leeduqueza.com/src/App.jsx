@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -5,14 +6,22 @@ import {
   Code2,
   Database,
   Download,
-  FileText,
   Mail,
+  Menu,
   Server,
+  X,
 } from "lucide-react";
 
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 import ContactForm from "./components/ContactForm";
+
+const navLinks = [
+  { href: "#about", label: "About" },
+  { href: "#projects", label: "Work" },
+  { href: "#experience", label: "Experience" },
+  { href: "#contact", label: "Contact" },
+];
 
 const skills = [
   {
@@ -136,6 +145,8 @@ function SectionHeading({ eyebrow, title, description }) {
 }
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#070a11] text-slate-100">
       <div className="pointer-events-none fixed inset-0">
@@ -157,27 +168,57 @@ function App() {
           </a>
 
           <div className="hidden items-center gap-7 text-sm text-slate-400 md:flex">
-            <a className="transition hover:text-white" href="#about">
-              About
-            </a>
-            <a className="transition hover:text-white" href="#projects">
-              Work
-            </a>
-            <a className="transition hover:text-white" href="#experience">
-              Experience
-            </a>
-            <a className="transition hover:text-white" href="#contact">
-              Contact
-            </a>
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                className="transition hover:text-white"
+                href={link.href}
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
 
-          <a
-            href="#contact"
-            className="rounded-lg border border-cyan-400/40 px-4 py-2 text-sm font-medium text-cyan-300 transition hover:bg-cyan-400/10"
-          >
-            Contact me
-          </a>
+          <div className="flex items-center gap-3">
+            <a
+              href="#contact"
+              className="rounded-lg border border-cyan-400/40 px-4 py-2 text-sm font-medium text-cyan-300 transition hover:bg-cyan-400/10"
+            >
+              Contact me
+            </a>
+
+            <button
+              type="button"
+              onClick={() => setMenuOpen((open) => !open)}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+              className="rounded-lg border border-white/10 p-2 text-slate-300 transition hover:bg-white/5 md:hidden"
+            >
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </nav>
+
+        {menuOpen && (
+          <div
+            id="mobile-menu"
+            className="border-t border-white/5 px-6 py-4 md:hidden"
+          >
+            <div className="flex flex-col gap-1 text-slate-300">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="rounded-lg px-3 py-2.5 transition hover:bg-white/5 hover:text-white"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </header>
 
       <main className="relative">
@@ -239,6 +280,8 @@ function App() {
 
                 <a
                   href="https://www.linkedin.com/in/jann-leerick-duqueza-204b8423b/"
+                  target="_blank"
+                  rel="noreferrer"
                   aria-label="LinkedIn profile"
                   className="transition hover:text-white"
                 >
@@ -325,9 +368,9 @@ function App() {
         >
           <div className="mx-auto max-w-6xl px-6">
             <SectionHeading
-              eyebrow="Selected work"
-              title="Professional and freelance projects"
-              description="A selection of websites and software products I have contributed to through professional employment and freelance development."
+              eyebrow="Skills"
+              title="Technologies I work with"
+              description="The languages, frameworks, and tools I use to build and maintain full-stack applications."
             />
 
             <div className="grid gap-5 md:grid-cols-3">
@@ -364,8 +407,8 @@ function App() {
           <div className="mx-auto max-w-6xl px-6">
             <SectionHeading
               eyebrow="Selected work"
-              title="Projects and engineering experience"
-              description="A selection of enterprise features and workflows I have developed, maintained, or modernized."
+              title="Professional and freelance projects"
+              description="A selection of websites and software products I have contributed to through professional employment and freelance development."
             />
 
             <div className="space-y-5">
@@ -472,10 +515,10 @@ function App() {
               {experience.map((item) => (
                 <article
                   key={item.role}
-                  className="grid gap-4 border-l border-white/10 pb-12 pl-7 last:pb-0 md:grid-cols-[140px_1fr]"
+                  className="relative grid gap-4 border-l border-white/10 pb-12 pl-7 last:pb-0 md:grid-cols-[140px_1fr]"
                 >
                   <div>
-                    <div className="-ml-[33px] mb-4 h-3 w-3 rounded-full border-2 border-cyan-400 bg-[#070a11] md:absolute" />
+                    <div className="absolute left-[-6.5px] top-1.5 h-3 w-3 rounded-full border-2 border-cyan-400 bg-[#070a11]" />
                     <p className="font-mono text-sm text-cyan-400">
                       {item.period}
                     </p>
@@ -500,27 +543,6 @@ function App() {
             </div>
           </div>
         </section>
-
-        {/* <section id="contact" className="py-28">
-          <div className="mx-auto max-w-4xl px-6 text-center">
-            <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-400/10 text-cyan-300">
-              <FileText size={26} />
-            </div>
-
-            <p className="mb-4 font-mono text-sm uppercase tracking-[0.2em] text-cyan-400">
-              Get in touch
-            </p>
-
-            <h2 className="text-4xl font-bold tracking-tight text-white md:text-5xl">
-              Let&apos;s build something useful.
-            </h2>
-
-            <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-400">
-              I&apos;m open to full-stack, Java, React, and backend-focused
-              software-engineering opportunities.
-            </p>
-          </div>
-        </section> */}
 
         <section id="contact" className="py-28">
           <div className="mx-auto max-w-6xl px-6">

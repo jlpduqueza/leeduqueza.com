@@ -45,9 +45,6 @@ export default function ContactForm() {
       // Read as text first because the server could return an empty response.
       const responseText = await response.text();
 
-      console.log("Contact API status:", response.status);
-      console.log("Contact API response:", responseText);
-
       if (!responseText) {
         throw new Error(
           `The server returned an empty response (${response.status}).`,
