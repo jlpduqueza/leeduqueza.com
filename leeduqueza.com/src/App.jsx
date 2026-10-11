@@ -1,40 +1,41 @@
 import { useState } from "react";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  BriefcaseBusiness,
-  Code2,
-  Database,
-  Download,
-  GraduationCap,
-  Mail,
-  Menu,
-  Server,
-  Sparkles,
-  X,
-} from "lucide-react";
-
-import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { FaUpwork } from "react-icons/fa6";
+import { ArrowDown, ArrowUpRight, Menu, X } from "lucide-react";
 
 import ContactForm from "./components/ContactForm";
 
+const UPWORK_URL =
+  "https://www.upwork.com/freelancers/~013d0481f75fae0190?mp_source=share";
+
 const navLinks = [
-  { href: "#about", label: "About" },
-  { href: "#projects", label: "Work" },
+  { href: "#work", label: "Work" },
+  { href: "#skills", label: "Skills" },
   { href: "#experience", label: "Experience" },
   { href: "#contact", label: "Contact" },
+];
+
+const socialLinks = [
+  { href: "https://github.com/jlpduqueza", label: "GitHub" },
+  {
+    href: "https://www.linkedin.com/in/jann-leerick-duqueza-204b8423b/",
+    label: "LinkedIn",
+  },
+  { href: UPWORK_URL, label: "Upwork" },
+];
+
+const facts = [
+  { label: "Based in", value: "Philippines" },
+  { label: "Experience", value: "7 years" },
+  { label: "Focus", value: "Java · Spring Boot · React" },
+  { label: "Status", value: "Open to opportunities", live: true },
 ];
 
 const skills = [
   {
     category: "Backend",
-    icon: Server,
     technologies: ["Java", "Spring Boot", "GraphQL", "REST APIs", "Maven"],
   },
   {
     category: "Frontend",
-    icon: Code2,
     technologies: [
       "React.js",
       "Next.js",
@@ -45,13 +46,11 @@ const skills = [
     ],
   },
   {
-    category: "AI-Assisted Development",
-    icon: Sparkles,
+    category: "AI-Assisted",
     technologies: ["Claude", "Claude Code"],
   },
   {
     category: "Data & Deployment",
-    icon: Database,
     technologies: ["MySQL", "Strapi", "Vercel", "Heroku", "Git"],
   },
 ];
@@ -60,7 +59,7 @@ const projects = [
   {
     number: "01",
     title: "OmTrak",
-    category: "Professional Work",
+    category: "Enterprise",
     role: "Full-Stack Software Engineer",
     description:
       "Contributed to the development and modernization of an enterprise construction and asset-management platform used for project communication, documentation, workflows, and facility operations.",
@@ -91,62 +90,70 @@ const projects = [
   {
     number: "03",
     title: "Marino World Online",
-    category: "Freelance Work",
+    category: "Freelance",
     role: "Full-Stack Web Developer",
     description:
       "Participated in the development of a digital maritime publication featuring industry news, feature stories, interviews, videos, and online magazine content.",
     contribution:
       "Contributed to frontend development, responsive layout, Strapi content integration, deployment, and the presentation of publication content.",
-    technologies: ["Next.js", "Tailwind CSS", "Strapi"],
-    platforms: ["Vercel", "Heroku"],
+    technologies: ["Next.js", "Tailwind CSS", "Strapi", "Vercel", "Heroku"],
     href: "https://www.marinoworldonline.com/",
   },
 ];
 
-const UPWORK_URL =
-  "https://www.upwork.com/freelancers/~013d0481f75fae0190?mp_source=share";
-
 const experience = [
   {
-    period: "2019 – Present",
+    period: "2019 — Now",
     role: "Mid-Level Software Engineer",
     company: "Qbryx Technology Solutions Corporation",
-    icon: BriefcaseBusiness,
     description:
       "Develop and maintain features for OmTrak across a Java, Spring Boot, and GraphQL backend and a React.js, KendoReact, and Tailwind CSS front end. Migrate and upgrade existing modules, integrate services through GraphQL and REST APIs backed by MySQL, and resolve defects alongside developers and QA.",
   },
   {
-    period: "2020 – 2022",
+    period: "2020 — 2022",
     role: "Freelance Full-Stack Web Developer",
     company: "Upwork",
     href: UPWORK_URL,
-    icon: BriefcaseBusiness,
     description:
       "Delivered web projects for international and local clients, including applicant and employer dashboards for MedSurf and the front end of Marino World Online, using Next.js, Tailwind CSS, and Strapi.",
   },
   {
-    period: "2015 – 2019",
-    role: "Bachelor of Science in Computer Science",
+    period: "2015 — 2019",
+    role: "B.S. Computer Science",
     company: "New Era University",
-    icon: GraduationCap,
+    label: "Education",
   },
 ];
 
-function SectionHeading({ eyebrow, title, description }) {
+function SectionHeader({ number, label, title }) {
   return (
-    <div className="mb-10 max-w-2xl">
-      <p className="mb-3 font-mono text-sm font-medium uppercase tracking-[0.2em] text-cyan-400">
-        {eyebrow}
+    <div className="mb-12 grid gap-6 border-t border-ink pt-5 md:mb-16 md:grid-cols-[1fr_2fr]">
+      <p className="font-mono text-xs uppercase tracking-[0.18em] text-muted">
+        <span className="text-accent">§ {number}</span> — {label}
       </p>
 
-      <h2 className="text-3xl font-bold tracking-tight text-white md:text-4xl">
+      <h2 className="font-serif text-5xl leading-[0.95] tracking-[-0.01em] md:text-7xl">
         {title}
       </h2>
-
-      {description && (
-        <p className="mt-4 leading-7 text-slate-400">{description}</p>
-      )}
     </div>
+  );
+}
+
+function TextLink({ href, children, external = false }) {
+  return (
+    <a
+      href={href}
+      {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
+      className="group inline-flex items-center gap-1 underline decoration-rule decoration-1 underline-offset-[6px] transition-colors hover:text-accent hover:decoration-accent"
+    >
+      {children}
+      {external && (
+        <ArrowUpRight
+          size={14}
+          className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+        />
+      )}
+    </a>
   );
 }
 
@@ -154,443 +161,344 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#070a11] text-slate-100">
-      <div className="pointer-events-none fixed inset-0">
-        <div className="absolute left-1/2 top-[-300px] h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-cyan-500/10 blur-[140px]" />
-        <div className="absolute right-[-250px] top-[500px] h-[500px] w-[500px] rounded-full bg-blue-600/10 blur-[140px]" />
-      </div>
-
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-[#070a11]/80 backdrop-blur-xl">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <a
-            href="#home"
-            className="flex items-center gap-3 text-lg font-semibold text-white"
-          >
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-cyan-400 font-mono text-sm font-bold text-slate-950">
-              LD
-            </span>
-
-            <span>Lee Duqueza</span>
+    <div className="min-h-screen overflow-x-hidden">
+      <header className="sticky top-0 z-50 border-b border-ink bg-paper/90 backdrop-blur-md">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-10">
+          <a href="#top" className="font-serif text-2xl leading-none">
+            Lee Duqueza<span className="text-accent">.</span>
           </a>
 
-          <div className="hidden items-center gap-7 text-sm text-slate-400 md:flex">
+          <div className="hidden items-center gap-8 font-mono text-xs uppercase tracking-[0.16em] md:flex">
             {navLinks.map((link) => (
               <a
                 key={link.href}
-                className="transition hover:text-white"
                 href={link.href}
+                className="transition-colors hover:text-accent"
               >
                 {link.label}
               </a>
             ))}
-          </div>
 
-          <div className="flex items-center gap-3">
             <a
-              href="#contact"
-              className="rounded-lg border border-cyan-400/40 px-4 py-2 text-sm font-medium text-cyan-300 transition hover:bg-cyan-400/10"
+              href="/resume.pdf"
+              className="inline-flex items-center gap-1.5 bg-ink px-3.5 py-2 text-paper transition-colors hover:bg-accent"
             >
-              Contact me
+              Résumé
+              <ArrowDown size={13} />
             </a>
-
-            <button
-              type="button"
-              onClick={() => setMenuOpen((open) => !open)}
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={menuOpen}
-              aria-controls="mobile-menu"
-              className="rounded-lg border border-white/10 p-2 text-slate-300 transition hover:bg-white/5 md:hidden"
-            >
-              {menuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
           </div>
+
+          <button
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            className="-mr-2 p-2 md:hidden"
+          >
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </nav>
 
         {menuOpen && (
-          <div
-            id="mobile-menu"
-            className="border-t border-white/5 px-6 py-4 md:hidden"
-          >
-            <div className="flex flex-col gap-1 text-slate-300">
-              {navLinks.map((link) => (
+          <div id="mobile-menu" className="border-t border-rule md:hidden">
+            {[...navLinks, { href: "/resume.pdf", label: "Résumé ↓" }].map(
+              (link) => (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="rounded-lg px-3 py-2.5 transition hover:bg-white/5 hover:text-white"
+                  className="block border-b border-rule px-5 py-4 font-serif text-3xl last:border-b-0"
                 >
                   {link.label}
                 </a>
-              ))}
-            </div>
+              ),
+            )}
           </div>
         )}
       </header>
 
-      <main className="relative">
-        <section
-          id="home"
-          className="mx-auto flex min-h-screen max-w-6xl items-center px-6 pb-20 pt-32"
-        >
-          <div className="grid w-full items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]">
-            <div>
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-300">
-                <span className="h-2 w-2 rounded-full bg-emerald-400" />
-                Open to software-engineering opportunities
-              </div>
+      <main id="top">
+        {/* Masthead */}
+        <section className="mx-auto max-w-7xl px-5 pb-20 pt-10 md:px-10 md:pb-28 md:pt-14">
+          <div className="mb-12 flex flex-wrap items-center justify-between gap-3 border-b border-rule pb-4 font-mono text-[11px] uppercase tracking-[0.18em] text-muted md:mb-16">
+            <span>Portfolio — Full-Stack Software Engineer</span>
+            <span>Est. 2019 · Philippines</span>
+          </div>
 
-              <p className="mb-4 font-mono text-sm font-medium uppercase tracking-[0.25em] text-cyan-400">
-                Full-Stack Software Engineer
-              </p>
+          <h1 className="rise font-serif text-[clamp(3.6rem,11vw,10.5rem)] leading-[0.86] tracking-[-0.025em]">
+            I build &amp;{" "}
+            <em className="text-accent">modernize</em>
+            <br className="hidden sm:block" /> enterprise software.
+          </h1>
 
-              <h1 className="max-w-4xl text-5xl font-bold leading-[1.05] tracking-[-0.04em] text-white md:text-7xl">
-                I build and modernize{" "}
-                <span className="text-slate-500">
-                  enterprise web applications.
-                </span>
-              </h1>
-
-              <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-400">
-                I&apos;m Lee, a software engineer specializing in Java, Spring
-                Boot, GraphQL, React, and document-management workflows.
-              </p>
-
-              <div className="mt-9 flex flex-wrap gap-4">
-                <a
-                  href="#projects"
-                  className="inline-flex items-center gap-2 rounded-lg bg-cyan-400 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-300"
-                >
-                  View my work
-                  <ArrowRight size={18} />
-                </a>
-
-                <a
-                  href="/resume.pdf"
-                  className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-5 py-3 font-semibold text-white transition hover:border-white/20 hover:bg-white/10"
-                >
-                  <Download size={18} />
-                  Download résumé
-                </a>
-              </div>
-
-              <div className="mt-9 flex items-center gap-5 text-slate-400">
-                <a
-                  href="https://github.com/jlpduqueza"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="GitHub profile"
-                  className="transition hover:text-white"
-                >
-                  <FaGithub size={22} />
-                </a>
-
-                <a
-                  href="https://www.linkedin.com/in/jann-leerick-duqueza-204b8423b/"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="LinkedIn profile"
-                  className="transition hover:text-white"
-                >
-                  <FaLinkedin size={22} />
-                </a>
-
-                <a
-                  href={UPWORK_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Upwork profile"
-                  className="transition hover:text-white"
-                >
-                  <FaUpwork size={22} />
-                </a>
-
-                <a
-                  href="#contact"
-                  aria-label="Email"
-                  className="transition hover:text-white"
-                >
-                  <Mail size={22} />
-                </a>
-              </div>
+          <div className="mt-14 grid gap-12 md:mt-20 md:grid-cols-[1fr_2fr] md:gap-10">
+            <div
+              className="rise font-mono text-[11px] uppercase tracking-[0.18em] text-muted"
+              style={{ animationDelay: "0.15s" }}
+            >
+              <dl className="divide-y divide-rule border-y border-rule">
+                {facts.map((fact) => (
+                  <div
+                    key={fact.label}
+                    className="flex items-baseline justify-between gap-4 py-3"
+                  >
+                    <dt>{fact.label}</dt>
+                    <dd className="flex items-center gap-2 text-right normal-case tracking-normal text-ink">
+                      {fact.live && (
+                        <span className="relative flex h-2 w-2">
+                          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60 motion-reduce:hidden" />
+                          <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+                        </span>
+                      )}
+                      {fact.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </div>
 
-            <div className="relative hidden lg:block">
-              <div className="absolute -inset-5 rounded-3xl bg-gradient-to-br from-cyan-400/15 to-blue-600/5 blur-2xl" />
+            <div className="rise" style={{ animationDelay: "0.25s" }}>
+              <p className="max-w-2xl text-xl leading-relaxed md:text-2xl md:leading-relaxed">
+                I&apos;m{" "}
+                <span className="font-serif text-[1.2em] italic">Lee</span>, a
+                software engineer who builds backend services with Java, Spring
+                Boot, and GraphQL, and fast, accessible front ends with React and
+                Next.js.
+              </p>
 
-              <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0c111c]/90 shadow-2xl">
-                <div className="flex items-center gap-2 border-b border-white/10 px-5 py-4">
-                  <span className="h-3 w-3 rounded-full bg-red-400/80" />
-                  <span className="h-3 w-3 rounded-full bg-amber-400/80" />
-                  <span className="h-3 w-3 rounded-full bg-emerald-400/80" />
+              <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-5">
+                <a
+                  href="#work"
+                  className="group inline-flex items-center gap-3 bg-ink px-6 py-4 font-mono text-xs uppercase tracking-[0.16em] text-paper transition-colors hover:bg-accent"
+                >
+                  See selected work
+                  <ArrowDown
+                    size={15}
+                    className="transition-transform group-hover:translate-y-0.5"
+                  />
+                </a>
 
-                  <span className="ml-3 font-mono text-xs text-slate-500">
-                    engineer.js
-                  </span>
-                </div>
-
-                <div className="space-y-2 p-6 font-mono text-sm leading-7">
-                  <p>
-                    <span className="text-purple-400">const</span>{" "}
-                    <span className="text-cyan-300">engineer</span>{" "}
-                    <span className="text-slate-500">=</span>{" "}
-                    <span className="text-slate-300">{"{"}</span>
-                  </p>
-
-                  <p className="pl-6">
-                    <span className="text-blue-300">name</span>:{" "}
-                    <span className="text-emerald-300">
-                      &quot;Lee Duqueza&quot;
-                    </span>
-                    ,
-                  </p>
-
-                  <p className="pl-6">
-                    <span className="text-blue-300">focus</span>: [
-                  </p>
-
-                  <p className="pl-12 text-emerald-300">
-                    &quot;Java&quot;, &quot;Spring Boot&quot;,
-                  </p>
-
-                  <p className="pl-12 text-emerald-300">
-                    &quot;GraphQL&quot;, &quot;React&quot;
-                  </p>
-
-                  <p className="pl-6">],</p>
-
-                  <p className="pl-6">
-                    <span className="text-blue-300">experience</span>:{" "}
-                    <span className="text-amber-300">&quot;7+ years&quot;</span>
-                    ,
-                  </p>
-
-                  <p className="pl-6">
-                    <span className="text-blue-300">builds</span>:{" "}
-                    <span className="text-emerald-300">
-                      &quot;production software&quot;
-                    </span>
-                  </p>
-
-                  <p className="text-slate-300">{"};"}</p>
+                <div className="flex flex-wrap gap-x-6 gap-y-2 text-base">
+                  {socialLinks.map((link) => (
+                    <TextLink key={link.label} href={link.href} external>
+                      {link.label}
+                    </TextLink>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section
-          id="about"
-          className="border-y border-white/5 bg-white/[0.015] py-24"
-        >
-          <div className="mx-auto max-w-6xl px-6">
-            <SectionHeading
-              eyebrow="Skills"
-              title="Technologies I work with"
-              description="The languages, frameworks, and tools I use to build and maintain full-stack applications."
-            />
+        {/* Selected work */}
+        <section id="work" className="mx-auto max-w-7xl px-5 pb-24 md:px-10 md:pb-32">
+          <SectionHeader
+            number="01"
+            label="Selected work"
+            title={
+              <>
+                Professional &amp; <em>freelance</em> projects
+              </>
+            }
+          />
 
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-              {skills.map(({ category, icon: Icon, technologies }) => (
-                <article
-                  key={category}
-                  className="rounded-2xl border border-white/10 bg-white/[0.025] p-6 transition hover:-translate-y-1 hover:border-cyan-400/30"
+          <ol className="border-b border-ink">
+            {projects.map((project) => (
+              <li key={project.title} className="group border-t border-rule">
+                <a
+                  href={project.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`${project.title} — visit website`}
+                  className="grid gap-x-10 gap-y-5 py-9 transition-colors md:grid-cols-[1fr_2fr] md:py-12"
                 >
-                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-300">
-                    <Icon size={22} />
+                  <div className="flex items-start justify-between gap-6 md:block">
+                    <p className="font-mono text-xs uppercase tracking-[0.18em] text-muted">
+                      <span className="text-accent">{project.number}</span> /{" "}
+                      {project.category}
+                    </p>
+
+                    <ArrowUpRight
+                      size={28}
+                      strokeWidth={1.25}
+                      className="shrink-0 text-muted transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-accent md:mt-10"
+                    />
                   </div>
-
-                  <h3 className="mb-4 text-xl font-semibold text-white">
-                    {category}
-                  </h3>
-
-                  <div className="flex flex-wrap gap-2">
-                    {technologies.map((technology) => (
-                      <span
-                        key={technology}
-                        className="rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-slate-400"
-                      >
-                        {technology}
-                      </span>
-                    ))}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="projects" className="py-24">
-          <div className="mx-auto max-w-6xl px-6">
-            <SectionHeading
-              eyebrow="Selected work"
-              title="Professional and freelance projects"
-              description="A selection of websites and software products I have contributed to through professional employment and freelance development."
-            />
-
-            <div className="space-y-5">
-              {projects.map((project) => (
-                <article
-                  key={project.title}
-                  className="group grid gap-6 rounded-2xl border border-white/10 bg-white/[0.025] p-6 transition hover:-translate-y-1 hover:border-cyan-400/30 md:grid-cols-[80px_1fr_auto] md:items-center md:p-8"
-                >
-                  <p className="font-mono text-xl text-cyan-400">
-                    {project.number}
-                  </p>
 
                   <div>
-                    <div className="mb-3 flex flex-wrap items-center gap-3">
-                      <h3 className="text-2xl font-semibold text-white">
-                        {project.title}
-                      </h3>
+                    <h3 className="font-serif text-5xl leading-none tracking-[-0.01em] transition-colors duration-300 group-hover:text-accent md:text-7xl">
+                      {project.title}
+                    </h3>
 
-                      <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-400">
-                        {project.category}
-                      </span>
-                    </div>
-
-                    <p className="mb-3 text-sm font-medium text-cyan-300">
+                    <p className="mt-3 font-mono text-xs uppercase tracking-[0.16em] text-muted">
                       {project.role}
                     </p>
 
-                    <p className="max-w-3xl leading-7 text-slate-400">
-                      {project.description}
-                    </p>
+                    <div className="mt-6 grid gap-6 text-[15px] leading-7 lg:grid-cols-2">
+                      <p>{project.description}</p>
 
-                    <div className="mt-5 rounded-xl border border-white/5 bg-black/10 p-4">
-                      <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                        My contribution
-                      </p>
-
-                      <p className="leading-6 text-slate-400">
+                      <p className="text-muted">
+                        <span className="font-serif text-lg italic text-ink">
+                          My part —{" "}
+                        </span>
                         {project.contribution}
                       </p>
                     </div>
 
-                    <div className="mt-5 flex flex-wrap gap-2">
-                      {project.technologies.map((technology) => (
-                        <span
-                          key={technology}
-                          className="rounded-md border border-cyan-400/10 bg-cyan-400/5 px-3 py-1.5 font-mono text-xs text-cyan-300"
-                        >
-                          {technology}
-                        </span>
-                      ))}
-                    </div>
-                    {project.platforms && (
-                      <div className="mt-4 flex flex-wrap items-center gap-2">
-                        <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                          Deployment:
-                        </span>
-
-                        {project.platforms.map((platform) => (
-                          <span
-                            key={platform}
-                            className="rounded-md border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-xs text-slate-400"
-                          >
-                            {platform}
-                          </span>
-                        ))}
-                      </div>
-                    )}
+                    <p className="mt-6 font-mono text-xs text-muted">
+                      {project.technologies.join("  ·  ")}
+                    </p>
                   </div>
+                </a>
+              </li>
+            ))}
+          </ol>
 
-                  <a
-                    href={project.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`Visit the ${project.title} website`}
-                    className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2.5 text-sm font-medium text-slate-300 transition hover:border-cyan-400/30 hover:bg-cyan-400/5 hover:text-cyan-300 md:self-center"
-                  >
-                    Visit website
-                    <ArrowUpRight size={18} />
-                  </a>
-                </article>
-              ))}
+          <p className="mt-5 max-w-2xl text-xs leading-5 text-muted">
+            Products, websites, trademarks, and branding belong to their
+            respective owners. Descriptions cover only the areas where I
+            participated or contributed.
+          </p>
+        </section>
+
+        {/* Skills */}
+        <section
+          id="skills"
+          className="border-y border-ink bg-ink text-paper"
+        >
+          <div className="mx-auto max-w-7xl px-5 py-24 md:px-10 md:py-32">
+            <div className="mb-14 grid gap-6 md:mb-20 md:grid-cols-[1fr_2fr]">
+              <p className="font-mono text-xs uppercase tracking-[0.18em] text-paper/60">
+                <span className="text-accent">§ 02</span> — Toolkit
+              </p>
+
+              <h2 className="font-serif text-5xl leading-[0.95] tracking-[-0.01em] md:text-7xl">
+                Technologies I work with, <em>ranked</em>.
+              </h2>
             </div>
 
-            <p className="mt-6 max-w-3xl text-sm leading-6 text-slate-500">
-              The products, websites, trademarks, and branding shown above
-              belong to their respective owners. My portfolio describes only the
-              areas where I participated or contributed.
-            </p>
+            <div className="grid border-t border-paper/25 sm:grid-cols-2 lg:grid-cols-4">
+              {skills.map((group, groupIndex) => (
+                <div
+                  key={group.category}
+                  className={`border-b border-paper/25 py-8 lg:border-b-0 ${
+                    groupIndex % 2 === 0
+                      ? "sm:border-r sm:pr-6"
+                      : "sm:pl-6 lg:pr-6"
+                  } ${groupIndex === 2 ? "lg:pl-6" : ""} ${
+                    groupIndex === 1 ? "lg:border-r" : ""
+                  } ${groupIndex === 3 ? "lg:pr-0" : ""}`}
+                >
+                  <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.18em] text-paper/60">
+                    {String.fromCharCode(65 + groupIndex)} — {group.category}
+                  </p>
+
+                  <ul className="space-y-1.5">
+                    {group.technologies.map((technology) => (
+                      <li
+                        key={technology}
+                        className="font-serif text-3xl leading-tight"
+                      >
+                        {technology}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
+        {/* Experience */}
         <section
           id="experience"
-          className="border-y border-white/5 bg-white/[0.015] py-24"
+          className="mx-auto max-w-7xl px-5 py-24 md:px-10 md:py-32"
         >
-          <div className="mx-auto max-w-6xl px-6">
-            <SectionHeading
-              eyebrow="Experience"
-              title="Experience and education"
-              description="Seven years of full-stack development across enterprise software and freelance client work."
-            />
+          <SectionHeader
+            number="03"
+            label="Experience"
+            title={
+              <>
+                Seven years, <em>two</em> tracks.
+              </>
+            }
+          />
 
-            <div className="max-w-4xl">
-              {experience.map(({ icon: Icon, ...item }) => (
-                <article
-                  key={item.role}
-                  className="relative grid gap-4 border-l border-white/10 pb-12 pl-7 last:pb-0 md:grid-cols-[140px_1fr]"
-                >
-                  <div>
-                    <div className="absolute left-[-6.5px] top-1.5 h-3 w-3 rounded-full border-2 border-cyan-400 bg-[#070a11]" />
-                    <p className="font-mono text-sm text-cyan-400">
-                      {item.period}
-                    </p>
-                  </div>
+          <ol className="border-b border-rule">
+            {experience.map((item) => (
+              <li
+                key={item.role}
+                className="grid gap-x-10 gap-y-3 border-t border-rule py-9 md:grid-cols-[1fr_2fr]"
+              >
+                <p className="font-mono text-xs uppercase tracking-[0.18em] text-muted">
+                  {item.period}
+                  {item.label && (
+                    <span className="ml-3 text-accent">{item.label}</span>
+                  )}
+                </p>
 
-                  <div>
-                    <h3 className="text-xl font-semibold text-white">
-                      {item.role}
-                    </h3>
+                <div>
+                  <h3 className="font-serif text-4xl leading-tight md:text-5xl">
+                    {item.role}
+                  </h3>
 
-                    <p className="mt-1 flex items-center gap-2 text-slate-500">
-                      <Icon size={15} />
-                      {item.href ? (
-                        <a
-                          href={item.href}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-1 transition hover:text-cyan-300"
-                        >
-                          {item.company}
-                          <ArrowUpRight size={14} />
-                        </a>
-                      ) : (
-                        item.company
-                      )}
-                    </p>
-
-                    {item.description && (
-                      <p className="mt-4 leading-7 text-slate-400">
-                        {item.description}
-                      </p>
+                  <p className="mt-1 text-muted">
+                    {item.href ? (
+                      <TextLink href={item.href} external>
+                        {item.company}
+                      </TextLink>
+                    ) : (
+                      item.company
                     )}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
+                  </p>
+
+                  {item.description && (
+                    <p className="mt-5 max-w-3xl text-[15px] leading-7">
+                      {item.description}
+                    </p>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ol>
         </section>
 
-        <section id="contact" className="py-28">
-          <div className="mx-auto max-w-6xl px-6">
-            <SectionHeading
-              eyebrow="Contact"
-              title="Start a conversation"
-              description="Send me a message regarding software-development opportunities, freelance work, or project collaboration."
-            />
+        {/* Contact */}
+        <section
+          id="contact"
+          className="mx-auto max-w-7xl px-5 pb-24 md:px-10 md:pb-32"
+        >
+          <SectionHeader
+            number="04"
+            label="Contact"
+            title={
+              <>
+                Let&apos;s build something <em>useful</em>.
+              </>
+            }
+          />
 
-            <ContactForm />
-          </div>
+          <ContactForm />
         </section>
       </main>
 
-      <footer className="border-t border-white/5 px-6 py-8">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 text-sm text-slate-500 md:flex-row">
-          <p>© {new Date().getFullYear()} Lee Duqueza</p>
-          <p>Built with React, Vite, and Tailwind CSS</p>
+      <footer className="border-t border-ink">
+        <div className="mx-auto max-w-7xl px-5 pt-10 md:px-10">
+          <div className="flex flex-col justify-between gap-4 font-mono text-[11px] uppercase tracking-[0.18em] text-muted md:flex-row">
+            <p>© {new Date().getFullYear()} Jann Leerick &ldquo;Lee&rdquo; Duqueza</p>
+            <p>Set in Instrument Serif &amp; Inter Tight</p>
+            <a href="#top" className="transition-colors hover:text-accent">
+              Back to top ↑
+            </a>
+          </div>
+
+          <p
+            aria-hidden="true"
+            className="mt-8 select-none whitespace-nowrap font-serif text-[clamp(4rem,23vw,22rem)] leading-[0.75] tracking-[-0.04em]"
+          >
+            Lee Duqueza<span className="text-accent">.</span>
+          </p>
         </div>
       </footer>
     </div>

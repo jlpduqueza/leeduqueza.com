@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LoaderCircle, Mail, Send } from "lucide-react";
+import { ArrowRight, LoaderCircle } from "lucide-react";
 
 const initialForm = {
   name: "",
@@ -8,6 +8,12 @@ const initialForm = {
   message: "",
   hpTrap: "",
 };
+
+const fieldClass =
+  "w-full border-0 border-b border-ink/40 bg-transparent px-0 py-3 text-lg text-ink outline-none transition-colors placeholder:text-muted/60 focus:border-accent";
+
+const labelClass =
+  "block font-mono text-[11px] uppercase tracking-[0.18em] text-muted";
 
 export default function ContactForm() {
   const [form, setForm] = useState(initialForm);
@@ -89,37 +95,29 @@ export default function ContactForm() {
   const isLoading = status.type === "loading";
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr]">
-      <div>
-        <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-300">
-          <Mail size={23} />
-        </div>
-
-        <h3 className="text-2xl font-semibold text-white">
-          Let&apos;s work together
-        </h3>
-
-        <p className="mt-4 leading-7 text-slate-400">
-          Have a project, job opportunity, or question? Send me a message and
-          I&apos;ll respond as soon as possible.
+    <div className="grid gap-14 md:grid-cols-[1fr_2fr] md:gap-10">
+      <div className="space-y-8">
+        <p className="text-lg leading-relaxed">
+          Have a project, a role, or a question? Send a note and I&apos;ll
+          reply as soon as I can.
         </p>
 
-        <div className="mt-7 space-y-3 text-sm text-slate-400">
-          <p>
-            <span className="text-slate-500">Location:</span> Philippines
-          </p>
+        <dl className="divide-y divide-rule border-y border-rule font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+          <div className="flex justify-between gap-4 py-3">
+            <dt>Location</dt>
+            <dd className="normal-case tracking-normal text-ink">Philippines</dd>
+          </div>
 
-          <p>
-            <span className="text-slate-500">Availability:</span> Full-stack and
-            web-development opportunities
-          </p>
-        </div>
+          <div className="flex justify-between gap-4 py-3">
+            <dt>Open to</dt>
+            <dd className="text-right normal-case tracking-normal text-ink">
+              Full-stack &amp; web roles
+            </dd>
+          </div>
+        </dl>
       </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="rounded-2xl border border-white/10 bg-white/[0.025] p-6 md:p-8"
-      >
+      <form onSubmit={handleSubmit} className="relative space-y-10">
         {/* Honeypot field. Real users should never see or fill this. */}
         <div
           aria-hidden="true"
@@ -138,13 +136,10 @@ export default function ContactForm() {
           />
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="grid gap-10 md:grid-cols-2">
           <div>
-            <label
-              htmlFor="name"
-              className="mb-2 block text-sm font-medium text-slate-300"
-            >
-              Name
+            <label htmlFor="name" className={labelClass}>
+              01 — Name
             </label>
 
             <input
@@ -156,16 +151,13 @@ export default function ContactForm() {
               value={form.name}
               onChange={handleChange}
               placeholder="Your name"
-              className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/10"
+              className={fieldClass}
             />
           </div>
 
           <div>
-            <label
-              htmlFor="email"
-              className="mb-2 block text-sm font-medium text-slate-300"
-            >
-              Email
+            <label htmlFor="email" className={labelClass}>
+              02 — Email
             </label>
 
             <input
@@ -177,17 +169,14 @@ export default function ContactForm() {
               value={form.email}
               onChange={handleChange}
               placeholder="you@example.com"
-              className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/10"
+              className={fieldClass}
             />
           </div>
         </div>
 
-        <div className="mt-5">
-          <label
-            htmlFor="subject"
-            className="mb-2 block text-sm font-medium text-slate-300"
-          >
-            Subject
+        <div>
+          <label htmlFor="subject" className={labelClass}>
+            03 — Subject
           </label>
 
           <input
@@ -199,58 +188,58 @@ export default function ContactForm() {
             value={form.subject}
             onChange={handleChange}
             placeholder="Project inquiry"
-            className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/10"
+            className={fieldClass}
           />
         </div>
 
-        <div className="mt-5">
-          <label
-            htmlFor="message"
-            className="mb-2 block text-sm font-medium text-slate-300"
-          >
-            Message
+        <div>
+          <label htmlFor="message" className={labelClass}>
+            04 — Message
           </label>
 
           <textarea
             id="message"
             name="message"
             required
-            rows={6}
+            rows={5}
             maxLength={5000}
             value={form.message}
             onChange={handleChange}
-            placeholder="Tell me about your project or opportunity..."
-            className="w-full resize-y rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/10"
+            placeholder="Tell me about your project or opportunity…"
+            className={`${fieldClass} resize-y`}
           />
         </div>
 
         {status.message && (
-          <div
+          <p
             role="status"
-            className={`mt-5 rounded-lg border px-4 py-3 text-sm ${
+            className={`border-l-2 pl-4 text-sm leading-6 ${
               status.type === "success"
-                ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-300"
-                : "border-red-400/20 bg-red-400/10 text-red-300"
+                ? "border-ink text-ink"
+                : "border-accent text-accent"
             }`}
           >
             {status.message}
-          </div>
+          </p>
         )}
 
         <button
           type="submit"
           disabled={isLoading}
-          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-cyan-400 px-6 py-3 font-semibold text-slate-950 transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-60 md:w-auto"
+          className="group inline-flex w-full items-center justify-center gap-3 bg-ink px-8 py-5 font-mono text-xs uppercase tracking-[0.16em] text-paper transition-colors hover:bg-accent disabled:cursor-not-allowed disabled:opacity-60 md:w-auto"
         >
           {isLoading ? (
             <>
-              <LoaderCircle className="animate-spin" size={18} />
-              Sending...
+              <LoaderCircle className="animate-spin" size={16} />
+              Sending…
             </>
           ) : (
             <>
-              <Send size={18} />
               Send message
+              <ArrowRight
+                size={16}
+                className="transition-transform group-hover:translate-x-1"
+              />
             </>
           )}
         </button>
